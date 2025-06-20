@@ -10,14 +10,14 @@ let supabaseInstance: SupabaseClient | null = null;
 export function getSupabase() {
 	if (supabaseInstance) return supabaseInstance;
 
-	const supabaseUrl = Deno.env.get("SUPABASE_URL");
-	const supabaseKey = Deno.env.get("SUPABASE_SERVICE_KEY");
+        const supabaseUrl = Deno.env.get("SUPABASE_URL");
+        const supabaseKey = Deno.env.get("SUPABASE_SERVICE_KEY");
 
-	if (!supabaseUrl || !supabaseKey) {
-		throw new Error(
-			"SUPABASE_URL and SUPABASE_ANON_KEY environment variables must be set",
-		);
-	}
+        if (!supabaseUrl || !supabaseKey) {
+                throw new Error(
+                        "SUPABASE_URL and SUPABASE_SERVICE_KEY environment variables must be set",
+                );
+        }
 
 	// Create and cache the Supabase client
 	supabaseInstance = createClient(supabaseUrl, supabaseKey, {
