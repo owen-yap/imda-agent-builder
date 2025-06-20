@@ -1,0 +1,20 @@
+{
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.config": "./deno.json",
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "editor.inlayHints.enabled": "off",
+  "files.associations": {
+    "**/server/**/*.ts": "typescript-deno"
+  },
+  "[typescript-deno]": {
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "editor.formatOnSave": true
+  }
+}

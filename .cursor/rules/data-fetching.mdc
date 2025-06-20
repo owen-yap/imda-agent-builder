@@ -1,0 +1,185 @@
+---
+description: Rules for data fetching in the frontend application
+globs: 
+alwaysApply: false
+---
+---
+description: Rules for data fetching in the frontend application
+globs: frontend/src/**/*
+alwaysApply: false
+---
+
+# Data Fetching Rules
+
+This document outlines the rules for data fetching in the frontend application of Monadle Chat.
+
+## Core Principles
+
+1. **For read-only operations**: Use the Supabase client directly from `frontend/src/lib/supabase.ts`
+2. **For server route requests**: Use the hooks defined in `frontend/src/hooks/use-api.ts`
+
+## Supabase Direct Access (Read-Only)
+
+For read-only operations, use the Supabase client directly. This is suitable for simple queries that don't require server-side processing.
+
+```typescript
+import { supabase } from "@/lib/supabase";
+import { useQuery } from "@tanstack/react-query";
+
+export function useWorkspaceMembers(workspaceId: string | undefined) {
+  const { user } = useAuth();
+  
+  const {
+    data,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["workspaceMembers", workspaceId || "none"],
+    queryFn: async () => {
+      if (!workspaceId) return { members: [] };
+
+      // Direct Supabase query for read-only operation
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select(`
+          user_id,
+          role,
+          user_profiles!inner(
+            id,
+            display_name,
+            email,
+            avatar_url
+          )
+        `)
+        .eq("workspace_id", workspaceId);
+
+      if (error) throw error;
+
+      // Transform the data
+      const members = data.map((item) => ({
+        id: item.user_id,
+        display_name: item.user_profiles.display_name || "",
+        email: item.user_profiles.email || "",
+        avatar_url: item.user_profiles.avatar_url,
+        role: item.role,
+      }));
+
+      return { members };
+    },
+    enabled: !!workspaceId,
+  });
+
+  return {
+    members: data?.members || [],
+    loading: isLoading,
+    error,
+  };
+}
+```
+
+## API Hooks for Server Routes
+
+When making requests to server routes (for data that requires server-side processing or mutations), use the hooks from `frontend/src/hooks/use-api.ts`:
+
+### Using `useApiQuery` for GET requests
+
+```typescript
+import { useApiQuery } from "@/hooks/use-api";
+
+interface DocumentsResponse {
+  documents: Document[];
+}
+
+// Inside your component
+const {
+  data: documentsResponse,
+  isLoading,
+  refetch,
+} = useApiQuery<DocumentsResponse>("/documents", ["documents"]);
+
+// Access the data
+const documents = documentsResponse?.documents || [];
+```
+
+### Using `useApiMutation` for POST requests
+
+```typescript
+import { useApiMutation } from "@/hooks/use-api";
+import { useQueryClient } from "@tanstack/react-query";
+
+// Inside your component
+const queryClient = useQueryClient();
+
+const createMessageMutation = useApiMutation<MessageResponse, MessageData>(
+  "/messages",
+  {
+    onSuccess: () => {
+      // Invalidate relevant queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+    },
+    onError: (error) => {
+      console.error("Error creating message:", error);
+    }
+  }
+);
+
+// Usage
+const sendMessage = (messageData: MessageData) => {
+  createMessageMutation.mutate(messageData);
+};
+```
+
+### Using `useApiDeleteMutation` for DELETE requests
+
+```typescript
+import { useApiDeleteMutation } from "@/hooks/use-api";
+
+// With dynamic endpoint based on document ID
+const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
+
+const deleteMutation = useApiDeleteMutation<void>(
+  `/documents/${documentToDelete}`,
+  {
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Error deleting document:", error);
+    },
+    onSettled: () => {
+      setDocumentToDelete(null);
+    },
+  }
+);
+
+// Usage
+const handleDelete = (id: string) => {
+  setDocumentToDelete(id);
+  setTimeout(() => {
+    deleteMutation.mutate();
+  }, 0);
+};
+```
+
+### Using `useApiFormDataMutation` for file uploads
+
+```typescript
+import { useApiFormDataMutation } from "@/hooks/use-api";
+
+// For file uploads
+const uploadMutation = useApiFormDataMutation<Document>("/documents", {
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["documents"] });
+    form.reset();
+  }
+});
+
+// Usage
+const handleUpload = () => {
+  const formData = new FormData();
+  formData.append("file", fileInput.files[0]);
+  formData.append("title", titleInput.value);
+  
+  uploadMutation.mutate(formData);
+};
+```

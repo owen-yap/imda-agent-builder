@@ -1,0 +1,34 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-env index.ts"
+  },
+  "imports": {
+    "@ai-sdk/openai": "npm:@ai-sdk/openai@^1.3.0",
+    "@supabase/supabase-js": "jsr:@supabase/supabase-js@^2.49.1",
+    "ai": "npm:ai@^4.2.1",
+    "gpt-tokenizer": "npm:gpt-tokenizer@^2.9.0",
+    "zod": "npm:zod@^3.24.2"
+  },
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window", "dom", "esnext"],
+    "strict": true
+  },
+  "lint": {
+    "files": {
+      "include": ["**/*.ts"]
+    },
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "fmt": {
+    "files": {
+      "include": ["**/*.ts"]
+    },
+    "options": {
+      "lineWidth": 100,
+      "indentWidth": 2
+    }
+  }
+} 

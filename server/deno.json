@@ -1,0 +1,40 @@
+{
+  "imports": {
+    "@ai-sdk/openai": "npm:@ai-sdk/openai@^1.2.7",
+    "@hono/zod-validator": "npm:@hono/zod-validator@^0.4.3",
+    "@std/dotenv": "jsr:@std/dotenv@^0.225.3",
+    "@supabase/supabase-js": "jsr:@supabase/supabase-js@^2.49.1",
+    "@types/pg": "npm:@types/pg@^8.11.11",
+    "ai": "npm:ai@^4.2.10",
+    "dotenv": "npm:dotenv@^16.4.7",
+    "drizzle-kit": "npm:drizzle-kit@^0.30.5",
+    "drizzle-orm": "npm:drizzle-orm@^0.40.1",
+    "gpt-tokenizer": "npm:gpt-tokenizer@^2.9.0",
+    "hono": "jsr:@hono/hono@^4.7.4",
+    "pg": "npm:pg@^8.14.1",
+    "postgres": "npm:postgres@^3.4.5",
+    "unpdf": "npm:unpdf@^0.12.1",
+    "zod": "npm:zod@^3.24.2",
+    "@shared/": "../types/"
+  },
+  "tasks": {
+    "start": "deno run --allow-net --allow-env --allow-read main.ts",
+    "dev": "DENO_ENV=development deno run --watch --allow-net --allow-env --allow-read --allow-write --allow-run main.ts",
+    "db:gen": "deno task drizzle-kit generate",
+    "db:migrate": "deno task drizzle-kit migrate",
+    "drizzle-kit": "deno run --env -A --node-modules-dir npm:drizzle-kit",
+    "process-documents": "deno run --allow-net --allow-env --allow-read scripts/processBatchDocuments.ts"
+  },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  },
+  "deploy": {
+    "project": "43386c98-b448-44ea-81cb-c013f6e1829e",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
+  }
+}

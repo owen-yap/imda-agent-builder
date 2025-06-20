@@ -1,0 +1,35 @@
+---
+description: 
+globs: *.tsx
+alwaysApply: false
+---
+ ---
+description: Explains the project structure and the contents of each directory
+globs: **/*
+alwaysApply: false
+---
+# Mona Project Structure
+
+Mona is a real-time application for deploying AI agents
+
+## Key Directories
+
+### `frontend/`
+Contains the React-based frontend application built with Vite.
+
+```
+frontend/
+├── public/         - Static assets
+├── src/            - Source code
+│   ├── components/ - Components used by the app
+│   │   ├── ui/     - UI components built with shadcn and Framer motion. This contains the design system.
+│   │   └── others  - Page specific components
+│   ├── routes/     - Routes for the application using tanstack file-based router
+│   ├── hooks/      - React hooks
+│   ├── lib/        - Utility functions and libraries
+│   └── main.tsx    - Main application component
+├── package.json    - Frontend dependencies
+├── vite.config.ts  - Vite configuration
+├── biome.json      - Linter configuration
+└── tsconfig.json   - TypeScript configuration
+```

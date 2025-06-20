@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+dist/
+build/
+*.log
+.deno/
+**/.env
+**/.env.local
+.cursor/mcp.json

@@ -1,0 +1,33 @@
+---
+description: 
+globs: **/package.json,**/deno.json
+alwaysApply: false
+---
+---
+description: Rules for managing project dependencies and package installation
+globs: "**/package.json,**/deno.json"
+alwaysApply: true
+---
+# Dependency Management Rules
+
+Guidelines for managing dependencies in the project.
+
+## Package Installation Process
+
+1. Pre-installation Checks:
+   - Verify if dependency exists in package.json or deno.json
+   - Location check priority:
+     ```
+     frontend/package.json
+     server/deno.json
+     ```
+
+2. Version Selection:
+   - Search for latest stable version from npm registry, do not use pre-existing knowledge, always perform a web search
+   - For deno, use "npm:package-name"
+   - Do not install pre-release versions
+
+3. Installation Process:
+   - Use pnpm as the package manager for npm packages in the frontend
+   - Use deno as the package manager for the backend (server)
+   - Run automatic installation after version selection

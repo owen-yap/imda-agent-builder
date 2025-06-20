@@ -1,0 +1,1 @@
+ALTER TABLE "user_profiles" ADD COLUMN "onboarding_state" varchar DEFAULT 'pending_welcome' NOT NULL;

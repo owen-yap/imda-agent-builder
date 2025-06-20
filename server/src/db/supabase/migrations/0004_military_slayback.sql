@@ -1,0 +1,1 @@
+ALTER TABLE "document_chunks" DROP COLUMN "token_count";

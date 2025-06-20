@@ -1,0 +1,1 @@
+ALTER TABLE "orchestrator_agents" DROP COLUMN "rules";

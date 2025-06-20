@@ -1,0 +1,42 @@
+---
+description: 
+globs: server/src/**/*
+alwaysApply: false
+---
+---
+description: Guidelines for accessing the database in the application
+globs: server/src/**/*
+alwaysApply: false
+---
+# Database Access Patterns
+
+## Using the Database Client
+
+Always use the `getDb()` function from `server/src/db/drizzle.ts` to access the database. This function ensures:
+
+1. Proper environment variable handling
+2. Connection pooling and reuse
+3. Type safety through the Drizzle ORM
+
+### ✅ Correct Usage
+
+```typescript
+import { getDb } from "../db/drizzle.ts";
+
+async function someFunction() {
+  const db = getDb();
+  const result = await db.query.tableName.findMany();
+}
+```
+
+### ❌ Incorrect Usage
+
+```typescript
+// Don't create new database connections directly
+import postgres from "postgres";
+const client = postgres(databaseUrl); // Wrong!
+
+// Don't use raw SQL queries without the db client
+const results = await sql`SELECT * FROM table`; // Wrong!
+```
+```

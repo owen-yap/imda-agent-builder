@@ -1,0 +1,1 @@
+ALTER TABLE "document_chunks" ADD COLUMN "token_size" integer NOT NULL;

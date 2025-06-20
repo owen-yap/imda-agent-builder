@@ -1,0 +1,37 @@
+---
+description: 
+globs: server/**/*
+alwaysApply: false
+---
+---
+description: Explains the server structure and the contents of each directory
+globs: server/**/*
+alwaysApply: false
+---
+# Monadle Chat Backend Structure
+
+The backend of Monadle Chat is built with Deno, providing server-side functionality for the chat application.
+
+## Directory Structure Overview
+
+```
+server/
+├── .vscode/              - VS Code editor settings
+├── node_modules/         - Project dependencies
+├── scripts/             - Utility scripts for server operations
+├── src/                 - Source code
+│   ├── agents/          - Code related to agentic workflows
+│   ├── db/              - Database configuration and schemas
+│   │                      (drizzle schema, migrations, clients)
+│   ├── functions/       - Reusable server functions
+│   ├── middleware/      - Request middleware
+│   ├── routes/          - API endpoint definitions
+│   └── types/           - Server specific types
+├── .env                 - Environment variables
+├── .env.example         - Example environment variables template
+├── deno.json           - Deno configuration
+├── deno.lock           - Dependency lock file
+├── drizzle.config.ts   - Database ORM configuration
+├── main.ts             - Main server entry point
+└── README.md           - Backend documentation
+```

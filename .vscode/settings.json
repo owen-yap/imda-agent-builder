@@ -1,0 +1,33 @@
+{
+    "editor.inlayHints.enabled": "off",
+    "editor.formatOnSave": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit"
+    },
+    "typescript.validate.enable": true,
+    "files.associations": {
+        "frontend/**/*.ts": "typescript",
+        "frontend/**/*.tsx": "typescriptreact",
+        "server/**/*.ts": "typescript-deno",
+        "supabase/**/*.ts": "typescript-deno",
+        "*.css": "tailwindcss"
+    },
+    "[typescript-deno]": {
+        "editor.defaultFormatter": "denoland.vscode-deno"
+    },
+    "files.readonlyInclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "files.watcherExclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "search.exclude": {
+        "**/routeTree.gen.ts": true
+    },
+}
